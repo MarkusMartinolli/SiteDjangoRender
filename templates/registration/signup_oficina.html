@@ -3,11 +3,11 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-info text-white">
+                <div class="card-header bg-success text-white">
                     <h4 class="mb-0">
-                        <i class="fas fa-user"></i> Cadastro de Cliente
+                        <i class="fas fa-tools"></i> Cadastro de Oficina
                     </h4>
                 </div>
                 <div class="card-body p-4">
@@ -24,11 +24,20 @@
                             </div>
                         {% endif %}
                         
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle"></i> Preencha os dados da sua oficina para se registrar
+                        </div>
+                        
                         {% for field in form %}
                             <div class="mb-3">
                                 <label class="form-label fw-bold">{{ field.label }}</label>
+                                
                                 {% if field.field.widget.input_type == 'password' %}
                                     {{ field }}
+                                {% elif field.name == 'especialidades' %}
+                                    <div class="border rounded p-3">
+                                        {{ field }}
+                                    </div>
                                 {% else %}
                                     {{ field }}
                                 {% endif %}
@@ -49,8 +58,8 @@
                             </div>
                         {% endfor %}
 
-                        <button type="submit" class="btn btn-info w-100 fw-bold">
-                            <i class="fas fa-check-circle"></i> Criar Conta
+                        <button type="submit" class="btn btn-success w-100 fw-bold mt-3">
+                            <i class="fas fa-check-circle"></i> Registrar Oficina
                         </button>
                     </form>
 
@@ -73,9 +82,24 @@
 </div>
 
 <style>
-    .form-control:focus {
-        border-color: #0dcaf0;
-        box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.25);
+    .form-control:focus,
+    .form-check-input:focus {
+        border-color: #198754;
+        box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+    }
+    
+    .form-check-input:checked {
+        background-color: #198754;
+        border-color: #198754;
+    }
+    
+    .form-check {
+        padding-left: 0;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-check-input {
+        margin-right: 0.5rem;
     }
 </style>
 {% endblock %}

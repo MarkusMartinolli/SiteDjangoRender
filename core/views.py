@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .forms import ClienteSignUpForm, ProblemaForm, OficinaPerfilForm
+from .forms import ClienteSignUpForm, ProblemaForm, OficinaPerfilForm, OficinaSignUpForm
 from .models import Problema, User, PerfilOficina
 
 def home(request):
@@ -12,7 +12,16 @@ def home(request):
             return redirect('dashboard_oficina')
     return render(request, 'core/home.html')
 
+def signup_choice(request):
+    """Tela para o usuário escolher se é Cliente ou Oficina"""
+    if request.user.is_authenticated:
+        return redirect('home')
+    return render(request, 'registration/signup_choice.html')
+
 def signup_cliente(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    
     if request.method == 'POST':
         form = ClienteSignUpForm(request.POST)
         if form.is_valid():
@@ -22,6 +31,20 @@ def signup_cliente(request):
     else:
         form = ClienteSignUpForm()
     return render(request, 'registration/signup.html', {'form': form, 'tipo': 'Cliente'})
+
+def signup_oficina(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+    if request.method == 'POST':
+        form = OficinaSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('dashboard_oficina')
+    else:
+        form = OficinaSignUpForm()
+    return render(request, 'registration/signup_oficina.html', {'form': form})
 
 @login_required
 def dashboard_cliente(request):
