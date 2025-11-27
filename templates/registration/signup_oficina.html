@@ -35,8 +35,22 @@
                                 {% if field.field.widget.input_type == 'password' %}
                                     {{ field }}
                                 {% elif field.name == 'especialidades' %}
-                                    <div class="border rounded p-3">
-                                        {{ field }}
+                                    <div class="border rounded p-3 bg-light">
+                                        {% if field.queryset %}
+                                            {% for choice_value, choice_label in field.field.choices %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" 
+                                                           name="{{ field.name }}" 
+                                                           value="{{ choice_value }}" 
+                                                           id="id_{{ field.name }}_{{ forloop.counter }}">
+                                                    <label class="form-check-label" for="id_{{ field.name }}_{{ forloop.counter }}">
+                                                        {{ choice_label }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <p class="text-danger small"><i class="fas fa-warning"></i> Nenhuma especialidade disponível. Contate o administrador.</p>
+                                        {% endif %}
                                     </div>
                                 {% else %}
                                     {{ field }}
