@@ -9,29 +9,5 @@ pip install -r requirements.txt
 # Executar migrações
 python manage.py migrate
 
-# Criar especialidades iniciais
-python manage.py shell <<EOF
-from core.models import Especialidade
-especialidades = [
-    'Mecânica Geral',
-    'Ar Condicionado',
-    'Elétrica Automotiva',
-    'Suspensão e Freios',
-    'Transmissão',
-    'Motor e Cilindro',
-    'Pintura',
-    'Funilaria',
-    'Pneus e Rodas',
-    'Vidros',
-    'Bateria',
-    'Alinhamento e Balanceamento',
-    'Revisão Preventiva',
-    'Diagnóstico Eletrônico',
-]
-for esp_nome in especialidades:
-    Especialidade.objects.get_or_create(nome=esp_nome)
-print("✅ Especialidades criadas!")
-EOF
-
 # Coletar arquivos estáticos (se necessário)
 python manage.py collectstatic --noinput
