@@ -1,17 +1,6 @@
-#!/bin/bash
-# Build script para Render
-
-set -o errexit
-
-# Instalar dependências
-pip install -r requirements.txt
-
-# Executar migrações
-python manage.py migrate
-
-# Criar especialidades iniciais
-python manage.py shell <<EOF
 from core.models import Especialidade
+
+# Lista de especialidades comuns para oficinas
 especialidades = [
     'Mecânica Geral',
     'Ar Condicionado',
@@ -28,10 +17,9 @@ especialidades = [
     'Revisão Preventiva',
     'Diagnóstico Eletrônico',
 ]
+
+# Criar especialidades se não existirem
 for esp_nome in especialidades:
     Especialidade.objects.get_or_create(nome=esp_nome)
-print("✅ Especialidades criadas!")
-EOF
 
-# Coletar arquivos estáticos (se necessário)
-python manage.py collectstatic --noinput
+print(f"✅ {len(especialidades)} especialidades criadas/verificadas com sucesso!")
