@@ -23,12 +23,6 @@ class OficinaSignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, label='Nome do Responsável')
     nome_oficina = forms.CharField(max_length=200, required=True, label='Nome da Oficina')
     endereco = forms.CharField(max_length=255, required=True, label='Endereço')
-    especialidades = forms.ModelMultipleChoiceField(
-        queryset=Especialidade.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=True,
-        label='Especialidades'
-    )
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -45,7 +39,6 @@ class OficinaSignUpForm(UserCreationForm):
                 nome_oficina=self.cleaned_data['nome_oficina'],
                 endereco=self.cleaned_data['endereco']
             )
-            perfil.especialidades.set(self.cleaned_data['especialidades'])
         return user
 
 class ProblemaForm(forms.ModelForm):
